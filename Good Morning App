@@ -64,7 +64,8 @@ namespace ConsoleApplication2
             
             foreach (Process theProcess in Process.GetProcessesByName(processName))
             {
-                if (theProcess.ProcessName.Contains(processName))
+              if (theProcess.ProcessName.Contains(processName.ToUpper()) || theProcess.ProcessName.Contains(processName.ToLower()))
+  
                 {
                     return true;
 
