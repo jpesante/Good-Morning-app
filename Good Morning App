@@ -1,43 +1,85 @@
-olean hasStartedAlready = false;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.IO;
+using System.Diagnostics;
+
+　
+　
+　
+　
+namespace ConsoleApplication2
+{
+    class Program
+    {
+      
+        public static Boolean isRunning = false;
         static void Main(string[] args)
         {
-     
 
-            if (!IsProcessOpen("chrome", "Outlook", "iexplore.exe", "lync", "StikyNot")) //iexplore needs to have.exe, otherwise it will recognice windows explorer as a running process, and will load the programs again.
+          
+
+            if (!isProcessRunning("iexplore"))
             {
 
-                System.Diagnostics.Process.Start(@"C:\Program Files\Internet Explorer\iexplore.exe"); // internet explorer browser
-                System.Diagnostics.Process.Start(@"C:\Program Files (x86)\Google\Chrome\Application\chrome"); // chrome browser
-                System.Diagnostics.Process.Start(@"C:\Program Files (x86)\Microsoft Office\Office16\Outlook.exe"); //outlook mail
-                System.Diagnostics.Process.Start(@"C:\Program Files (x86)\Microsoft Office\Office16\lync.exe"); //skype for business
-                System.Diagnostics.Process.Start(@"C:\Program Files (x86)\StikyNot.exe"); //StikyNotes
-
-
-            }
-
-                        
-  
+                Process.Start(@"C:\Program Files\Internet Explorer\iexplore.exe"); // Internet Explorer browser
             }
             
             
-        public static bool IsProcessOpen(String processName1, String processName2, String processName3, String processName4, String processName5)
-        {
-            foreach(System.Diagnostics.Process clsProcess in System.Diagnostics.Process.GetProcesses()){
-
-
-                if (clsProcess.ProcessName.Contains(processName1) || clsProcess.ProcessName.Contains(processName2) || clsProcess.ProcessName.Contains(processName3)|| clsProcess.ProcessName.Contains(processName4) || clsProcess.ProcessName.Contains(processName5))
-                {
-
-                    return true;
-                }
-
-
+         
+            if (!isProcessRunning("chrome")) // chrome browser
+            {
+                Process.Start(@"C:\Program Files (x86)\Google\Chrome\Application\chrome"); // chrome browser
             }
-            return false;
+
+　
+            if (!isProcessRunning("OUTLOOK")) // Microsoft Office.  Note: need to add upcase/downcase logic to the isProcessRunning method.
+                                                // I had to change the string "Outlook" to uppercase in order for it to recognize it. Outlooks' process runs as OUTLOOK.EXE
+            {
+                Process.Start(@"C:\Program Files (x86)\Microsoft Office\Office16\Outlook.exe"); //outlook mail
+            }
+
+　
+            if (!isProcessRunning("lync"))
+            {
+                Process.Start(@"C:\Program Files (x86)\Microsoft Office\Office16\lync.exe"); //skype for business
+            }
+
+　
+            if (!isProcessRunning("StikyNot"))
+            {
+                Process.Start(@"C:\Program Files (x86)\StikyNot.exe"); //StikyNotes
+            }
+        
+
         }
-       
-    }
-}
-       
+
+          
+         
+
+        public static Boolean isProcessRunning(string processName)
+        {
+            
+            foreach (Process theProcess in Process.GetProcessesByName(processName))
+            {
+                if (theProcess.ProcessName.Contains(processName))
+                {
+                    return true;
+
+                }
+            //    else return false;
+                
+                
+             
+                
+            }
+
+　
+            return false;
+            }
+        
+
     }
 }
